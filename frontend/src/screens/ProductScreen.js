@@ -11,6 +11,7 @@ function ProductScreen(props){
 
     useEffect(()=> {
 
+      
         dispatch(detailsProduct(props.match.params.id));
         return () => {
             //
@@ -38,7 +39,7 @@ function ProductScreen(props){
                             <ul>
                                 <li><h1>{product.name}</h1></li>
                                 <li>{product.brand}</li>
-                                <li>Add Views: {product.numView}</li>
+                                <li>Age: {product.numView}</li>
                                 <li>
                                     <b>PKR {product.price}</b>
                                 </li>

@@ -32,7 +32,7 @@ function HomeScreen(props){
                   <Link to={'/products/' + product._id}>{product.name}</Link>
               </div>
               <div className="product-brand">{product.brand}</div>
-              <div className="product-price">PKR{product.price}</div>
+              <div className="product-price">{"Rs. "}{product.price}</div>
               <div className="description">{product.description}</div>
               <div className="views">Views: {product.numView}</div>
           </div>

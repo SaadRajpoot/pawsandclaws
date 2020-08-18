@@ -1,12 +1,22 @@
 import express from 'express';
 import Product from '../models/productModel';
-
+import {isAuth, isAdmin} from '../util';
 
 const router = express.Router();
 
 router.get("/", async (req, res) =>{
   const products = await Product.find({});
   res.send(products);
+});
+
+router.get("/:id", async (req, res) =>{
+  const product = await Product.findOne({_id: req.params.id});
+  if(product){
+    res.send(product);
+  }else{
+    res.send(404).send({message: "Pet Unavailable."})
+  }
+  
 });
 
 router.post("/", async (req, res) =>{
@@ -42,7 +52,7 @@ router.put("/:id", async (req, res) =>{
     product.status = req.body.status;
     const updatedProduct = await product.save();
     if(updatedProduct){
-      return res.status(201).send({message: 'Pet Details Changed', data: updatedProduct});
+      return res.status(200).send({message: 'Pet Details Changed', data: updatedProduct});
     }  
   }
   return res.status(500).send({message: 'Error in Changing Details.'});
@@ -50,6 +60,16 @@ router.put("/:id", async (req, res) =>{
   
  
 });
+
+router.delete("/:id", async(req, res) =>{
+  const deletedProduct = await Product.findById(req.params.id);
+  if(deletedProduct){
+    await deletedProduct.remove();
+    res.send({msg: "Pet removed from Inventory."});
+  }else{
+    res.send({msg: "Error in removing pet from Inventory."});
+  }
+})
   
 
 export default router;

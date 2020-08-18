@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
-import { saveProducts, listProducts } from '../actions/productActions';
+import { saveProducts, listProducts, deleteProduct } from '../actions/productActions';
 
 function ProductsScreen(props){
    
@@ -18,17 +18,23 @@ function ProductsScreen(props){
     const productList = useSelector(state=> state.productList);
     const {loading, products, error} = productList;
     const productSave = useSelector(state => state.productSave);
-
     const { loading: loadingSave, success: successSave, error: errorSave } = productSave;
+
+    const productDelete = useSelector(state => state.productDelete);
+    const { loading: loadingDelete, success: successDelete, error: errorDelete } = productDelete;
+    
     const dispatch = useDispatch();
+    
     useEffect(()=> {
+
+        setModalVisible(false);
         
         dispatch(listProducts());
 
         return () => {
             //
         };
-    },[]);
+    },[successSave, successDelete]);
 
 
     const openModal = (product)=>{
@@ -55,10 +61,16 @@ function ProductsScreen(props){
             description, status}));
     }
 
+    const deleteHandler = (product) => {
+      
+        dispatch(deleteProduct(product._id));
+    }
+
+
     return <div className="content content-margined">
             <div className="product-header">
                 <h3>Pets</h3>
-                <button onClick= {()=>openModal([])}>Add Pet</button>
+                <button className="button primary" onClick= {()=>openModal([])}>Add Pet</button>
             </div>
 
 {modalVisible &&
@@ -184,7 +196,7 @@ function ProductsScreen(props){
         
             <div className= "product-list">
 
-                <table>
+                <table class= "table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -200,7 +212,7 @@ function ProductsScreen(props){
                     </thead>
                     <tbody>
                     {products.map(product => (
-                        <tr>
+                        <tr key={product._id}>
                             <td>{product._id}</td>
                             <td>{product.name}</td>
                             <td>{product.age}</td>
@@ -209,11 +221,11 @@ function ProductsScreen(props){
                             <td>{product.brand}</td>
                             <td>{product.status}</td>
                             <td>
-                                <button onClick= {()=>openModal(product)}>
+                                <button className="button" onClick= {()=>openModal(product)}>
                                     Edit
                                 </button>
-                                
-                                <button>
+                                {' '}
+                                <button className="button"  onClick= {()=>deleteHandler(product)}>
                                     Delete
                                 </button>
 

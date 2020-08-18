@@ -9,7 +9,7 @@ router.get("/createadmin", async (req, res) =>{
     try {
         const user = new User({
             name: 'Saad',
-            email: 'saadrajpt@gmail.com',
+            email: 'saadrajpt@pawsandclaws.com',
             password: '1234',
             isAdmin: true,
     
