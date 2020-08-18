@@ -77,7 +77,9 @@ const closeMenu = () =>{
     </main>
 
     <footer className="footer">
-        All Rights Reserved
+    <div>
+            <p>Made with ❤️ by Saad Rajpoot</p>
+        </div>
     </footer>
 </div>
 </BrowserRouter>
